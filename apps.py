@@ -46,6 +46,7 @@ def create_app():
     courage,
     grade,
     qas,
+    competition,
     )
 
     # app.register_blueprint(student.app, url_prefix='/student')
@@ -59,6 +60,7 @@ def create_app():
     app.register_blueprint(xueji.app, url_prefix='/xueji')
     app.register_blueprint(courage.app, url_prefix='/courage')
     app.register_blueprint(grade.app, url_prefix='/grade')
+    app.register_blueprint(competition.app, url_prefix='/competition')
 
 
 

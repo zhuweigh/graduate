@@ -177,7 +177,7 @@ class Course(Base, db.Model):
     c_name = db.Column(db.String(255))
     c_score = db.Column(db.Integer)
     owner = db.Column(db.String(255))
-    c_semester = db.Column(db.String(255))
+
     c_type = db.Column(db.String(255))
     grades = db.relationship("Grade", backref=db.backref('course', order_by=id),
             primaryjoin='and_(Course.id == Grade.course_id,)')
@@ -193,6 +193,7 @@ class Grade(Base,  db.Model):
     score = db.Column(db.String(255))
     class_ = db.Column(db.String(255))
     owner = db.Column(db.String(255))
+    c_semester = db.Column(db.String(255))
     course_id = db.Column(db.ForeignKey('course.id'))
 
 
@@ -204,7 +205,6 @@ class GradeUser(Base, db.Model):
     studnet_number = db.Column(db.String(255))
     college = db.Column(db.String(255))
     subject = db.Column(db.String(255))
-
     student_class = db.Column(db.String(255))
 
 

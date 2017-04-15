@@ -1,5 +1,5 @@
-var CourseModalDemo = angular.module('App.course', []);
-   CourseModalDemo.controller('CourseModalCtrl', ['$scope','$modal', '$http', function($scope, $modal, $http) {
+var CourseModalDemo = angular.module('App.Competition', []);
+   CourseModalDemo.controller('CompetitionModalCtrl', ['$scope','$modal', '$http', function($scope, $modal, $http) {
       var modalInstance;
     $scope.templateData = '';
     $scope.open = function(url) {

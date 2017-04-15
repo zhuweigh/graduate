@@ -6,7 +6,7 @@
      var members=$("#competition_create_modal").find("#competition_member_id")
      var time=$("#competition_create_modal").find("#competition_time_id")
      var type=$("#competition_create_modal").find("#competition_type_id")
-     var numberr=$("#competition_create_modal").find("#competition_number_id")
+     var numbers=$("#competition_create_modal").find("#competition_number_id")
      <!--var c_teacher=$("#competition_create_modal").find("#course_teacher_id")-->
 
      if(bValid){
@@ -20,7 +20,7 @@
                   "members":$.trim(members.val()),
                   "time":$.trim(time.val()),
                   "type":$.trim(type.val()),
-                  "number":$.trim(number.val()),
+                  "numbers":$.trim(number.val()),
 
               },function(data){
                   var data=eval("("+data+")");
@@ -40,7 +40,7 @@
                    }
 
                  });
-                 $('#course_available_tb').trigger("reloadGrid");
+                 $('#competition_available_tb').trigger("reloadGrid");
                  }
               }
             }
