@@ -171,30 +171,37 @@ class XueJiChange(Base, db.Model):
 
 class Course(Base, db.Model):
     __tablename__ = "course"
-    __table_args__ = (db.UniqueConstraint("c_name", ),
+    __table_args__ = (
                       {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
-    id = db.Column(db.String(40), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    c_id = db.Column(db.Integer)
     c_name = db.Column(db.String(255))
     c_score = db.Column(db.Integer)
     owner = db.Column(db.String(255))
 
-    c_type = db.Column(db.String(255))
-    grades = db.relationship("Grade", backref=db.backref('course', order_by=id),
-            primaryjoin='and_(Course.id == Grade.course_id,)')
+
+    # grades = db.relationship("Grade", backref=db.backref('course', order_by=id),
+    #         primaryjoin='and_(Course.id == Grade.course_id,)')
 
 
-class Grade(Base,  db.Model):
+class Grade(Base, db.Model):
     __tablename__ = "grade"
     __table_args__ = (
                      {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
     id = db.Column(db.Integer, primary_key=True)
-    sex = db.Column(db.String(255))
-    name = db.Column(db.String(255))
-    score = db.Column(db.String(255))
+    college = db.Column(db.Text(1024))
+    subject = db.Column(db.String(255))
     class_ = db.Column(db.String(255))
-    owner = db.Column(db.String(255))
-    c_semester = db.Column(db.String(255))
-    course_id = db.Column(db.ForeignKey('course.id'))
+    number = db.Column(db.String(255))
+    name = db.Column(db.String(255))
+    semester = db.Column(db.String(255))
+    detail = db.Column(db.Text(4096))
+
+    # course_id = db.Column(db.String(255), db.ForeignKey('course.id', ondelete="CASCADE"))
+    # course = db.relationship("Course", backref=db.backref(
+    #     "peoples", lazy="dynamic"), uselist=False)
+
+
 
 
 class GradeUser(Base, db.Model):
@@ -238,10 +245,10 @@ class Competition(Base,db.Model):
     team_members = db.Column(db.String(255))
     title = db.Column(db.String(255))
     competition_type = db.Column(db.String(255))
-    level = db.Column(db.String(255))
+    # level = db.Column(db.String(255))
     _date = db.Column(db.DateTime)
     numbers = db.Column(db.String(255))
-    _class = db.Column(db.String(255))
+    # _class = db.Column(db.String(255))
 
 class Hanging(Base,db.Model):
     __tablename__ = "hanging"

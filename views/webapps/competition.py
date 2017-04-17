@@ -19,14 +19,14 @@ class CompetitionAdd(BaseManager):
     def post(self):
         params = request.form
         values = {
-            "members":params.get("members"),
+            "team_members":params.get("members"),
             "numbers":params.get("numbers"),
             "title":params.get("title"),
-            "type":params.get("type"),
-            "time":params.get("time"),
+            "competition_type":params.get("type"),
+            "_date":params.get("time"),
         }
         print "-----------", values
-        # models.Competition(values).save()
+        models.Competition(values).save()
         return success2json("create com ok")
 class CompetitionDelete(BaseManager):
     def get(self):

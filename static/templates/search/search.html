@@ -1,0 +1,58 @@
+<script>
+
+    $(".search_button").click(function(){
+              var key_name = $(".key_word_name").val()
+              var key_number = $(".key_word_number").val()
+              var key_semester = $(".key_word_semester").val()
+              $.get("/search/grade",{
+                       "key_name":key_name,
+                       "key_number":key_number,
+                       "key_semester":key_semester,
+              }, function(data){
+                 $(".contentpanel").html(data)
+});
+
+
+
+
+    })
+</script>
+
+<div class="search_from">
+    <input class="key_word_name" type="text" value="朱伟">
+    <input class="key_word_number" type="text">
+    <input class="key_word_semester" type="text">
+    <button class="btn btn-blue search_button">search</button>
+    <div class="receicve">
+
+         {% if semester %}
+           {% for s in semester %}
+             xueqi{{ s }}
+        <table class="grade_table">
+        <tr>
+            <td>课程号</td>
+            <td>课程</td>
+            <td>成绩</td>
+            <td>课程类型</td>
+        </tr>
+            {% for c in course %}
+             {% for k,v in c.iteritems() %}
+             <tr>
+                 <td>{{v.number}}</td>
+                 <td>{{k}}</td>
+                 <td>{{v.grade}}</td>
+                 <td>{{v.type}}</td>
+             </tr>
+            {% endfor %}
+         {% endfor %}
+        </table>
+        {% endfor %}
+         {% endif %}
+
+</div>
+
+
+
+
+
+

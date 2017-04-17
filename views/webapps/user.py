@@ -21,7 +21,7 @@ class UserCreate(BaseManager):
         if identity == 's':
             check_exist = models.User.query.filter_by(id=params.get('student_number')).first()
             if check_exist:
-                print check_exist.id
+                print '-------------', check_exist.id
                 return  exception2json('用户已经存在')
             values = {
                 'id': params.get('student_number'),
