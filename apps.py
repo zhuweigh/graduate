@@ -11,7 +11,7 @@ import  ConfigParser
 app = Flask(__name__)
 db = SQLAlchemy()
 # print conf
-
+UPLOAD_FOLDER ='/root/desigine/studentinfomanager/application/upload'
 def database_url():
     parse = ConfigParser.ConfigParser()
     parse.read(conf)
@@ -32,6 +32,9 @@ def create_app():
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
     app.config['SQLALCHEMY_RECORD_QUERIES'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+
+
     db.init_app(app)
 
     from views.webapps import (
@@ -47,20 +50,22 @@ def create_app():
     grade,
     qas,
     competition,
+    search,
     )
 
     # app.register_blueprint(student.app, url_prefix='/student')
-    app.register_blueprint(qas.qa,url_prefix='/qa')
+    app.register_blueprint(qas.app ,url_prefix='/qa')
     app.register_blueprint(user.app, url_prefix='/user')
     app.register_blueprint(score.app, url_prefix='/score')
     app.register_blueprint(course.app, url_prefix='/course')
     app.register_blueprint(modal.app, url_prefix='/confirm_modal')
     app.register_blueprint(student.app, url_prefix='/student')
-    app.register_blueprint(classes.app, url_prefix='/class')
+    app.register_blueprint(classes.app, url_prefix='/classes')
     app.register_blueprint(xueji.app, url_prefix='/xueji')
     app.register_blueprint(courage.app, url_prefix='/courage')
     app.register_blueprint(grade.app, url_prefix='/grade')
     app.register_blueprint(competition.app, url_prefix='/competition')
+    app.register_blueprint(search.app, url_prefix='/search')
 
 
 

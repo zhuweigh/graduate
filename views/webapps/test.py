@@ -1,5 +1,5 @@
 from xlrd import open_workbook
-files = '/root/desigine/studentinfomanager/application/static/js/grade.xls'
+files = '/root/desigine/studentinfomanager/application/static/upload/grade.xls'
 from collections import OrderedDict
 data = open_workbook(files)
 print data
@@ -12,10 +12,10 @@ print  ncols
 # print table.col_values(1)
 
 # row[0] [1]
-course_number = table.row_values(0)
-course_name = table.row_values(1)
-name=''
-number =''
+course_number = table.col_values(4)
+# course_name = table.col_values(9)
+# print  course_name
+# print course_number
 # for row in range(4,nrows):
 #     number += table.row_values(row)[1]+','
 #     name += table.row_values(row)[4] +','
@@ -25,16 +25,11 @@ number =''
 #     "name":{},
 #     "number":{}
 # }
-course = {}
-info = {}
+
 
 class DealTable(object):
-    def __init__(self, c_col_start=None, c_col_end=None, c_row_start=None, c_row_end=None,
-                 p_col_start=None, p_col_end=None, p_row_start=None, p_row_end=None):
-        self.c_col_start = c_col_start
-        self.c_col_end = c_col_end
-        self.c_row_start = c_row_start
-        self.c_row_end = c_row_end
+    def __init__(self, p_col_start=None, p_col_end=None, p_row_start=None, p_row_end=None):
+
         self.p_col_start = p_col_start
         self.p_col_end = p_col_end
         self.p_row_start = p_row_start
@@ -42,6 +37,8 @@ class DealTable(object):
         count = 0
     def deal_score(self):
         # print course
+        course = {}
+        # info = {}
         count = 0
         for row in range(self.p_row_start, self.p_row_end):
 
@@ -57,15 +54,15 @@ class DealTable(object):
                     subd['type'] = table.row_values(self.p_row_start - 3)[col]
                     subd['score'] = table.row_values(self.p_row_start - 2)[col]
                     course[table.col_values(col)[0]]['grade'] = table.row_values(row)[col]
-                    info['number'] = table.row_values(row)[self.p_col_start-4]
-                    info['name'] = table.row_values(row)[self.p_col_start-1]
-                    course.update(info)
-                    count = count + 1
+                    # info['number'] = table.row_values(row)[self.p_col_start-4]
+                    # info['name'] = table.row_values(row)[self.p_col_start-1]
+                    # course.update(info)
+            count = count + 1
                     # print table.row_values(row)[self.p_col_start-4],table.row_values(row)[self.p_col_start-1]
-            print course
+            print course, count
 
 
-t = DealTable(5, 12, 1, 4, 5, 12, 5, 18)
+t = DealTable( 5, 12, 8, 10)
 t.deal_score()
 values = {
     "college":"tonxin",

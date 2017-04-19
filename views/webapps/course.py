@@ -80,7 +80,7 @@ class CourseDelete(BaseManager):
         if not course:
             return exception2json("course is not exist")
         course.hard_delete()
-        return success2json(course)
+        return success2json("ok")
 
 class GradeInput(BaseManager):
     def get(self):

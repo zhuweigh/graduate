@@ -59,38 +59,7 @@ class Base(ORMMethodBase):
     deleted = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime)
 
-# class BaseA:
-#     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-#     __table_initialized__ = False
-#     # admission_time = db.Column(db.DateTime)
-#     semester = db.Column(db.DateTime)
 
-
-#
-# class Root(Base, db.Model):
-#     __tablename__ = "root"
-#     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(255))
-#     password = db.Column(db.String(255))
-
-
-
-
-# class Class(Base, db.Model):
-#     __tablename__ = "class"
-#     __table_args__ = (db.UniqueConstraint("name", ),
-#                       {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(255))
-#     # class_ = db.Column(db.String(255))
-#     students = db.relationship('Student', backref=db.backref('class', order_by=id),
-#                         primaryjoin='and_(Class.id == User.class_id,)')
-
-    # @property
-    # def students_num(self):
-    #     return len(self.students)
 class SchoolInfo:
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
     __table_initialized__ = False
@@ -110,8 +79,7 @@ class SchoolInfo:
 #     id = db.Column(db.Integer, primary_key=True)
 #     teacher_number = db.Column(db.String(255))
 #     identity = db.Column(db.String(255))
-#
-#
+
 class Student(Base, SchoolInfo, db.Model):
     __tablename__ = "student"
     __table_args__ = (db.UniqueConstraint("student_number", ),
@@ -245,10 +213,9 @@ class Competition(Base,db.Model):
     team_members = db.Column(db.String(255))
     title = db.Column(db.String(255))
     competition_type = db.Column(db.String(255))
-    # level = db.Column(db.String(255))
-    _date = db.Column(db.DateTime)
-    numbers = db.Column(db.String(255))
-    # _class = db.Column(db.String(255))
+    level = db.Column(db.String(255))
+    _date = db.Column(db.DateTime, default=get_current_time)
+
 
 class Hanging(Base,db.Model):
     __tablename__ = "hanging"
@@ -344,6 +311,7 @@ DB_TABLE_MAP = {
     'user':User,
     'student':Student,
     'grade':Grade,
+    'competition':Competition,
 }
 
 

@@ -30,37 +30,81 @@ class GradeSearch(BaseManager):
 
     def get(self):
 
-        semester = []
+        semester = {}
         course = []
         params = request.args
-        number = session.get('username')
+        # number = session.get('username')
         s = params.get('key_semester')
-
-        if s:
-            grades = models.Grade.query.filter(and_(models.Grade.number==number,models.Grade.semester==semester)).all()
-            c_obj = json.loads(grades[0].detail)
-            semester.append(c_obj.semester)
-            course.append(c_obj)
-            # for key, value in c_obj.iteritems():
-            #
-            #     if key in ["name", "number"]:
-            #         continue
-            #     else:
-            #         # course_value.append(course)
-            #         print key , value
-
-            return  render.search(semester, course=course)
-        else:
-            grades = models.Grade.query.filter_by(number='2013128712').all()
-            print  "------------", grades
+        name = params.get('key_name')
+        number = params.get("key_number")
+        print name , number, s
+        grades = ''
+        if s and number:
+            grades = models.Grade.query.filter(and_(models.Grade.number==number,models.Grade.semester==s, )).all()
+        elif s and name:
+            grades = models.Grade.query.filter(and_(models.Grade.name == name, models.Grade.semester == s, )).all()
+        elif name:
+            grades = models.Grade.query.filter(models.Grade.name == name).all()
+        if grades:
             for grade in grades:
-                 c_obj = json.loads(grade.detail)
-                 semester.append('2013-2014')
-                 course.append(c_obj)
-            print semester, course
+                semester["semester"] = grade.semester
+                c_obj = json.loads(grade.detail)
+                c_obj.update(semester)
+                course.append(c_obj)
+                print course
+                print  semester
 
-            return render.search(semester=semester, course=course)
+            return render.search_grade(course=course)
+        else:
+            return render.search_grade()
+
+class UnpassSearch(BaseManager):
+    def get(self):
+        params = request.args
+        semester = {}
+        L = []
+
+        name = params.get("key_name")
+        number = params.get("key_number")
+        s = params.get("key_semester")
+        # name = '关东健'
+        grades = []
+        # gradeobj = models.Grade.query.filter_by(name=name).all()
+        if name and s:
+            grades = models.Grade.query.filter(and_(models.Grade.name == name, models.Grade.semester == s, )).all()
+        elif number and s:
+            grades = models.Grade.query.filter(and_(models.Grade.number == number, models.Grade.semester == s, )).all()
+        elif name:
+            grades = models.Grade.query.filter(and_(models.Grade.name == name)).all()
+
+        for grade in grades:
+            semester["semester"] = grade.semester
+            c_obj = json.loads(grade.detail)
+            c_obj.update(semester)
+            for key, value in c_obj.iteritems():
+                storage = {}
+                # print  key ,value
+                if key == 'semester':
+                    continue
+                score = c_obj[key]['grade']
+                if score == '- ':
+                    continue
+                # print type(score)
+                score = int(score)
+                if score < 60:
+                    storage['course_name'] = key
+                    storage['course_type'] = c_obj[key]['type']
+                    storage['semester'] = c_obj['semester']
+                    storage['grade'] = score
+                    storage['course_number'] = c_obj[key]['number']
+                L.append(storage)
+                print  L
+                # print storage
+
+        return  render.search_unpass(Ls=L)
 
 app = Blueprint('search_app', __name__, template_folder='templates')
 app.add_url_rule('/grade', view_func=GradeSearch.as_view('grade_search'))
+app.add_url_rule('/unpass', view_func=UnpassSearch.as_view('unpass_search'))
+
 # app.add_url_rule('/result', view_func=Result.as_view('grid_search'))

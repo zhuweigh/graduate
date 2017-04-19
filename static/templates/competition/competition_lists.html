@@ -1,15 +1,15 @@
 <script type="text/javascript">
-$("#_available_tb").jqGrid({
+$("#competition_available_tb").jqGrid({
        url: '/competition/grid',
        datatype: 'json',
        mtype: 'GET',
-   colNames: ['id', '题目',  '参赛成员', '获奖时间','级别', '班级', '操作'],
+   colNames: ['id', '题目', '参赛成员', '获奖时间','级别','类型','操作'],
        colModel: [{
             name: 'id',
             index: 'id',
             width: 20,
             align: 'left',
-
+            hiden: 'true',
            },
            {
             name: 'title',
@@ -37,12 +37,13 @@ $("#_available_tb").jqGrid({
             align: 'left',
            },
            {
-            name: 'class_',
-            index: 'class_',
+            name: 'type',
+            index: 'type',
             width: 60,
             align: 'left',
            },
-           {  name: 'service',
+           {
+            name: 'service',
             index: 'service',
             width: 66,
             align: 'left',
@@ -52,15 +53,15 @@ $("#_available_tb").jqGrid({
                 var html = '';
                 row = row2object(row, option.gid);
 
-                html += '<button style="margin-left:10px;" title="编辑" class="btn btn-blue" onclick="course_update(' + row['id'] + ')">编辑</button>';
-                html += '<button style="margin-left:10px;" title="删除" class="btn btn-blue" onclick=course_delete_confirm(' + row['id'] + ',"' + row['c_name'] + '")>删除</button>';
+                html += '<button style="margin-left:10px;" title="编辑" class="btn btn-blue" onclick="competition_update(' + row['id'] + ')">编辑</button>';
+                html += '<button style="margin-left:10px;" title="删除" class="btn btn-blue" onclick=competition_delete_confirm(' + row['id'] + ',"' + row['title'] + '")>删除</button>';
                return html;
 
                 }
        }],
 
     page: 1,
-    rowNum: 10,
+    rowNum: 2,
     sortname: 'id',
     sortorder: 'desc',
     viewrecords: true,
@@ -82,20 +83,18 @@ $("#_available_tb").jqGrid({
 });
 
 $("#competition_add_button").click(function() {
-console.log('pppppppp')
-
     angular.element('#competition_add_button').scope().open("/competition/add");
 });
 
-function competition_update(course_id) {
-    angular.element('#competition_create_modal').scope().open("/competition/update?competition_id=" + competition_id);
+function competition_update(competition_id) {
+    angular.element('#competition_add_button').scope().open("/competition/update?competition_id=" + competition_id);
 
-}
+};
 
 
 function competition_delete(competition_id) {
-    $.post'/competition/delete', {
-            'id': course_id
+    $.post('/competition/delete', {
+            'id': competition_id,
         },
         function(data) {
             if (data.reply.is_success) {
@@ -106,12 +105,12 @@ function competition_delete(competition_id) {
             }
         });
     $('#competition_available_tb').trigger("reloadGrid");
-}
+};
 
 function competition_delete_confirm(competition_id, competition_name) {
     msg = '确定删除（' + competition_name + '）？';
     SelfConfirm(msg, competition_delete, competition_id, "删除提示");
-}
+};
 </script>
 
 <div class="panel panel-style">
@@ -128,7 +127,7 @@ function competition_delete_confirm(competition_id, competition_name) {
             </div>
         </div>
 
-        <div id="grid_course_available" class='grid-body'>
+        <div id="grid_competition_available" class='grid-body'>
             <table id="competition_available_tb"></table>
         </div>
 

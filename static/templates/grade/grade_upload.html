@@ -1,15 +1,23 @@
 
-<div>
+<div calss="info_input">
 
-    <div class="tableinfo">
 
-        <input type="text" name="course_col_start"> <input type="text" name="course_col_end">
-        <input type="text" name="course_row_start"> <input type="text" name="course_row_end">
-     <input type="text" name="people_col_start"> <input type="text" name="people_col_end">
-        <input type="text" name="people_row_start"> <input type="text" name="people_row_end">
-    </div>
     <div>
         <form action="/grade/deal" method="POST" enctype="multipart/form-data">
+            <div class="tableinfo">
+        <label>课程开始列 </label>
+     <input type="text" name="course_col_start">
+        <label>课程结束列</label>
+        <input type="text" name="course_col_end">
+        <label>表格起始行</label>
+        <input type="text" name="table_row_start">
+        <label> 表格结束行</label>
+        <input type="text" name="table_row_end">
+        <label>学号偏移</label>
+        <input type="text" name="number_offset">
+        <label>名字偏移</label>
+        <input type="text" name="name_offset">
+    </div>
             <label>学院</label>
             <input type="text" name="college">
             <label>专业</label>

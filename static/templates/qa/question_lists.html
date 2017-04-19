@@ -1,18 +1,22 @@
 
 <script>
 
-function question_add() {
-    console.log($("#ask").attr("qs-url"))
-    angular.element('.btn').scope().open($("#ask").attr("qs-url"));
 
-}
-<!--function question_detail(question_id) {-->
-    <!--console.log(question_id)-->
-    <!--var url = "qa/question/detail";-->
-     <!--$.get(url,{-->
-      <!--"question_id":question_id-->
-      <!--});-->
-<!--}-->
+    $(".ask_btn").click(function() {
+     angular.element('.ask_btn').scope().open("qa/qs/add");
+    });
+
+
+$(".question_title").click(function(){
+         id = $(this).attr("id")
+         console.log(id)
+           $.get("/qa/detail",{
+                       "question_id": id,
+              }, function(data){
+                 $(".panel").html(data);
+      });
+  });
+
 
 </script>
 
@@ -28,8 +32,8 @@ function question_add() {
         <div class="question-counts">提问数{{ q_counts}}</div>
         <div class="answer-counts">回答数{{ a_counts}}</div>
         <div class="comment-counts">评论数{{ c_counts}}</div>
-        <div id="ask"  qs-url="{{url_for('qa.add_question')}}">
-            <button class="btn" onclick="question_add()">提问</button>
+        <div id="ask">
+            <button class="btn ask_btn">提问</button>
         </div>
     </div>
     <div class="question-lists">
@@ -38,7 +42,7 @@ function question_add() {
     <div class="answer-counts">答案{{ qs.answers_count }}</div>
     <div class="question-create">创建于{{ qs.create_time}}</div>
     <div class="question_user">提问者{{ qs.author.name}}</div>
-        <div class="question_title"><a target="_blank" href="{{url_for('qa.question_detail', question_id=qs.id)}}"  id="detail">问题{{ qs.name }}</a></div>
+        <div class="question_title" id="{{qs.id}}">问题:{{ qs.name }}</div>
 
     {% endfor %}
     </div>

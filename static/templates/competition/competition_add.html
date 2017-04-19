@@ -7,7 +7,7 @@
      var members=$("#competition_create_modal").find("#competition_member_id")
      var time=$("#competition_create_modal").find("#competition_time_id")
      var type=$("#competition_create_modal").find("#competition_type_id")
-     var numbers=$("#competition_create_modal").find("#competition_number_id")
+     <!--var numbers=$("#competition_create_modal").find("#competition_number_id")-->
 
 
      if(bValid){
@@ -21,14 +21,14 @@
                   "members":$.trim(members.val()),
                   "time":$.trim(time.val()),
                   "type":$.trim(type.val()),
-                  "numbers":$.trim(numbers.val()),
+
 
               },function(data){
                   var data=eval("("+data+")");
                   console.log(typeof(data));
                   console.log(data);
                      if (data.reply.is_success){
-                       angular.element('#competition_create_modal').scope().close();
+                       angular.element('#competition_add_button').scope().close();
                        <!--$('#competition_available_tb').trigger("reloadGrid");-->
                        enable_submit = true;
                    }else{
@@ -88,11 +88,11 @@
             </tr>
             <tr>
                <td>
-                <label>学号</label><a>*</a>
+                <label>类型</label><a>*</a>
                </td>
                <td >
-                  <input id="competition_number_id" name="comprtition_number" size="25" max="10000" min="1" type="text"/>
-                 <i class="fa fa-question-circle" itype="competition_number"></i>
+                  <input id="competition_type_id" name="competition_type" size="25" max="10000" min="1" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_type"></i>
                </td>
             </tr>
             <tr>
@@ -100,8 +100,8 @@
                 <label>级别</label><a>*</a>
                </td>
                <td >
-                  <input id="competition_type_id" name="competition_type" size="25" max="10000" min="1" type="text"/>
-                 <i class="fa fa-question-circle" itype="competition_type"></i>
+                  <input id="competition_level_id" name="competition_level" size="25" max="10000" min="1" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_level"></i>
                </td>
             </tr>
 

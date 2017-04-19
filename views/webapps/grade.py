@@ -13,52 +13,70 @@ import  json
 render = render_jinja('static/templates/grade', encoding='utf-8',)
 UPLOAD_FOLDER = '/root/desigine/studentinfomanager/application/static/upload'
 
-data = open_workbook(os.path.join(UPLOAD_FOLDER, "grade.xls"))
-table = data.sheets()[0]
-course = {}
-info = {}
+
+
+
 
 class DealTable(object):
-    def __init__(self, p_col_start=None, p_col_end=None, p_row_start=None, p_row_end=None,
-                 college=None, subject=None, class_=None):
+    def __init__(self,file_grade=None, course_col_start=None, course_col_end=None, table_row_start=None, table_row_end=None,
+                 college=None, subject=None, class_=None, semester=None, name_col=1, number_col=4):
 
-        self.p_col_start = p_col_start
-        self.p_col_end = p_col_end
-        self.p_row_start = p_row_start
-        self.p_row_end = p_row_end
+        self.course_col_start = course_col_start
+        self.course_col_end = course_col_end
+        self.table_row_start = table_row_start
+        self.table_row_end = table_row_end
         self.college = college
         self.subject = subject
         self.class_ = class_
+        self.semester = semester
+        self.name_col = name_col
+        self.number_col = number_col
+        self.file = file_grade
+
+
+        # info = {}
+
+        print  self.table_row_end
+
+    def read_file(self):
+        data = open_workbook(os.path.join(UPLOAD_FOLDER, self.file))
+        table = data.sheets()[0]
+        return  table
     def deal_score(self):
-        # print course
-        for row in range(self.p_row_start, self.p_row_end):
-            for col in range(self.p_col_start, self.p_col_end):
+        course = {}
+        table = self.read_file()
+        for row in range(self.table_row_start, self.table_row_end):
+            # course = {}
+            for col in range(self.course_col_start, self.course_col_end):
 
                 if not table.row_values(row)[col]:
                     continue
                 else:
                     subd = course[table.col_values(col)[0]] = {}
                     # print course
-                    subd['number'] = table.row_values(self.p_row_start - 4)[col]
-                    subd['type'] = table.row_values(self.p_row_start - 3)[col]
-                    subd['score'] = table.row_values(self.p_row_start - 2)[col]
+                    subd['number'] = table.row_values(self.table_row_start - 4)[col]
+                    subd['type'] = table.row_values(self.table_row_start - 3)[col]
+                    subd['score'] = table.row_values(self.table_row_start - 2)[col]
                     course[table.col_values(col)[0]]['grade'] = table.row_values(row)[col]
                     # info['number'] = table.row_values(row)[self.p_col_start - 4]
                     # info['name'] = table.row_values(row)[self.p_col_start - 1]
                     # course.update(info)
-            name = table.row_values(row)[self.p_col_start - 1]
-            number = table.row_values(row)[self.p_col_start - 4]
+            name = table.row_values(row)[self.course_col_start - self.name_col]
+            number = table.row_values(row)[self.course_col_start - self.number_col]
             print course
                     # print table.row_values(row)[self.p_col_start-4],table.row_values(row)[self.p_col_start-1]
             values = {
                 "college": self.college,
                 "subject": self.subject,
                 'class_': self.class_,
+                "semester": self.semester,
                 "number":number,
                 "name":name,
                 'detail': json.dumps(course),
             }
             models.Grade(values).save()
+
+        # os.remove(os.path.join(UPLOAD_FOLDER, self.file))
 
 
 
@@ -127,24 +145,27 @@ class FileUPload(BaseManager):
         return render.grade_upload()
 class GradeDeal(BaseManager):
     def post(self):
-        # file = request.files['file']
+        file = request.files['file']
         params = request.form
-        c_col_start = params.get("c_col_start")
-        c_col_end = params.get("c_col_end")
-        c_row_start = params.get("c_row_start")
-        c_col_end = params.get("c_row_end")
-        p_col_start = params.get("c_col_start")
-        p_col_end = params.get("c_col_end")
+        course_col_start = int(params.get("course_col_start"))
+        course_col_end = int(params.get("course_col_end"))
+        table_row_start = int(params.get("table_row_start"))
+        table_row_end = int(params.get("table_row_end"))
+        name_offset = int(params.get("name_offset"))
+        number_offset = int(params.get("number_offset"))
         college = params.get("college")
         subject = params.get("subject")
         class_ = params.get("class_")
-        print college,subject,class_
-        # filename = file.filename
-        # file.save(os.path.join(UPLOAD_FOLDER, filename))
-
+        semester = params.get("semester")
+        print course_col_start, course_col_end
+        print table_row_start, table_row_end
+        filename = file.filename
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        file_grade = os.path.join(UPLOAD_FOLDER, filename)
 
         # file_url = url_for('uploaded_file', filename=filename)
-        t = DealTable( 5, 12, 5, 41,college, subject, class_)
+        t = DealTable(file_grade, course_col_start, course_col_end, table_row_start,
+                      table_row_end, college, subject,class_,  semester, name_offset,number_offset)
         t.deal_score()
 
         return  'ok'

@@ -1,13 +1,13 @@
 <script type="text/javascript">
       var enable_submit=true;
-      function submit_competition_create(){
+      function submit_competition_update(){
      var bValid = true;
      var title=$("#competition_create_modal").find("#competition_name_id")
      console.log(title)
      var members=$("#competition_create_modal").find("#competition_member_id")
      var time=$("#competition_create_modal").find("#competition_time_id")
      var type=$("#competition_create_modal").find("#competition_type_id")
-     var numbers=$("#competition_create_modal").find("#competition_number_id")
+     var level=$("#competition_create_modal").find("#competition_level_id")
 
 
      if(bValid){
@@ -16,19 +16,20 @@
             var $submitBtn = $('.modal-footer').find('.btn-blue');
             $submitBtn.html('<i class="fa fa-spinner fa-spin" style="margin:3px 6px;"></i>');
              $('.rtn-tip').slideUp('fast');
-              $.post("/competition/add",{
+              $.post("/competition/update",{
+                  "id":{{competition.id}},
                   "title":$.trim(title.val()),
                   "members":$.trim(members.val()),
                   "time":$.trim(time.val()),
                   "type":$.trim(type.val()),
-                  "numbers":$.trim(numbers.val()),
+                  "level":$.trim(level.val()),
 
               },function(data){
                   var data=eval("("+data+")");
                   console.log(typeof(data));
                   console.log(data);
                      if (data.reply.is_success){
-                       angular.element('#competition_create_modal').scope().close();
+                       angular.element('#competition_add_button').scope().close();
                        <!--$('#competition_available_tb').trigger("reloadGrid");-->
                        enable_submit = true;
                    }else{
@@ -72,7 +73,7 @@
                 <label>组队成员</label><a>*</a>
                </td>
                <td>
-                  <input id="competition_member_id" name="competition_memeber"  value="{{competition.members}}" type="text"/>
+                  <input id="competition_member_id" name="competition_memeber"  value="{{competition.team_members}}" type="text"/>
                  <i class="fa fa-question-circle" itype="competition_member"></i>
                </td>
             </tr>
@@ -82,17 +83,17 @@
                 <label>获奖时间</label><a>*</a>
                </td>
                <td >
-                  <input id="competition_time_id" name="comprtition_time"  value="{{competition.time}}" type="text"/>
+                  <input id="competition_time_id" name="comprtition_time"  value="{{competition._date}}" type="text"/>
                  <i class="fa fa-question-circle" itype="competition_time"></i>
                </td>
             </tr>
             <tr>
                <td>
-                <label>学号</label><a>*</a>
+                <label>类型</label><a>*</a>
                </td>
                <td >
-                  <input id="competition_number_id" name="comprtition_number" size="25" max="10000" min="1" type="text"/>
-                 <i class="fa fa-question-circle" itype="competition_number"></i>
+                  <input id="competition_type_id" name="competition_type"  value="{{competition.competition_type}}" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_type"></i>
                </td>
             </tr>
             <tr>
@@ -100,11 +101,10 @@
                 <label>级别</label><a>*</a>
                </td>
                <td >
-                  <input id="competition_type_id" name="competition_type" value="{{competition.numbers}}" type="text"/>
-                 <i class="fa fa-question-circle" itype="competition_type"></i>
+                  <input id="competition_level_id" name="competition_level" value="{{competition.level}}" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_level"></i>
                </td>
             </tr>
-
         </table>
     </div>
         <div class="error-tip">
@@ -115,6 +115,6 @@
         </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-blue" ng-click="ok()">ok</button>
+    <button class="btn btn-blue" ng-click="update()">ok</button>
     <button class="btn btn-white" ng-click="cancel()">cancel</button>
 </div>

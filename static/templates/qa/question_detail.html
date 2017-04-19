@@ -5,43 +5,31 @@
     <title>wenti</title>
       <script type="text/javascript" src="/static/js/jquery-2.1.4/jquery.js"></script>
     <script type="text/javascript" src="/static/js/jquery-2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/js/comment.js"></script>
-    <script type="text/javascript" src="/static/js/answer.js"></script>
-<script>
-    $(document).ready(function(){
-$(".comment-reply").click(function(){
-       console.log('rrrrrrrrr')
-           $("#reply-answer").toggle();
+<script type="text/javascript" src="/static/js/answer.js"></script>
 
-});
 
-})
-
-    </script>
 </head>
 <body>
 <div class="question-show">
-   <div class="title">wenti{{ question.name}}</div>
-   <div class="content">neirong{{ question.content}}</div>
-   <div class="title">{{ question.author.name}}</div>
+   <div class="title">问题:{{ question.name}}</div>
+   <div class="content">详细描述:{{ question.content}}</div>
+   <div class="title">提问人:{{ question.author.name}}</div>
   <div class="create_time">创建于{{ question.create_time}}</div>
-    <div class="qid" id="{{question.id}}" style="disply=none"></div>
+  <div class="qid">{{ question.id}}</div>
+
     </div>
   <div class="answer-show">
-      <div class="answer-counts">daan {{ question.answers_count }}</div>
+      <div class="answer-counts">{{ question.answers_count }}个答案</div>
       <ol class="answer-list">
       <li class="comment">
           {% for answer in question.answers %}
-              <div class="answer-author">{{ answer.author.name }}</div>
+              <div class="answer-author">回答者{{ answer.author.name }}</div>
               <div class="answer">{{ answer.content }}</div>
-              <div class="answer-create">{{ answer.create_time }}</div>
-          <a class="comment-reply" href="#respond" ans-id="{{ answer.id }}" ><i class="icon-reply"></i>回复</a>
-          <div id="reply-answer">
-              <label class="answer-comment">pionglun</label>
-              <textarea id="comment-write" aria-required="true" cols="58" rows="8"></textarea>
-             <button class="comment-apply btn-blue" onclick="submit_comment()">提交comment</button>
+              <div class="answer-create">回答时间{{ answer.create_time }}</div>
+          <div>
+             <input type="button"  value="回复" ans-id="{{answer.id}}" id="reply-answer">
           </div>
-          <ul class="children">
+              <ul class="children">
               {% for cm in answer.comments%}
 
                 <div class="comment-author"><a href="#">{{ cm.author.name }}</a></div>
@@ -59,11 +47,14 @@ $(".comment-reply").click(function(){
           </ol>
   </div>
 <div clas="rtn-tip"></div>
-<div class="reply-question">
-      <label class="question-answer">answer</label>
+<div id="reply-info" rtype="1" rid="">
+      <label class="question-answer">答案/回复</label>
       <textarea id="answer-write" aria-required="true" cols="58" rows="8"></textarea>
 </div>
-     <button class="btn-crerate btn-blue" onclick="reply_answer()">提交问题</button>
+   <p class="form-submit">
+       <input name="submit" type="button" id="submit" value="提交" class="button small color">
+   </p>
     <!--<button class="btn btn-white">取消提交</button>-->
 </body>
+
 </html>

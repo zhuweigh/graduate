@@ -13,7 +13,7 @@
             var $submitBtn = $('.modal-footer').find('.btn-blue');
             $submitBtn.html('<i class="fa fa-spinner fa-spin" style="margin:3px 6px;"></i>');
              $('.rtn-tip').slideUp('fast');
-              $.post("/qa/question/add",{
+              $.post("/qa/qs/add",{
                 "title":title,
                 "content":content,
               },function(data){
