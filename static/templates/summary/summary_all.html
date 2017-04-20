@@ -1,0 +1,41 @@
+<script>
+    $(".look-one").click(function(){
+        var class_ = $(".class_one").val();
+        var semester = $(".semester_one").val();
+        $.post("/summary/show",{
+          "flag":"unpass",
+          "class_":class_,
+          "semester":semester,
+        },);
+    });
+        $(".look-two").click(function(){
+        var class_ = $(".class_two").val();
+        var semester = $(".semester_two").val();
+        $.post("/summary/show",{
+          "flag":"point",
+          "class_":class_,
+          "semester":semester,
+        },);
+    });
+</script>
+<div class="show-pic">
+    <div class="box-one">
+        <input type="text" placeholder="class" class="class_one">
+        <input type="text" placeholder="semester" class="semester_one">
+        <button class="look-one">查看</button>
+    <!--<img src="/static/img/unpass.png" align="none">-->
+    </div>
+
+    <div class="box-two">
+          <input type="text" placeholder="class" class="class_two">
+        <input type="text" placeholder="semester" class="semester_two">
+        <button class="look-two">查看</button>
+    </div>
+    <div class="box-three">
+
+    </div>
+    <div class="box-fore">
+
+    </div>
+
+</div>

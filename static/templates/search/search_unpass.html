@@ -4,10 +4,12 @@
               var key_name = $(".key_word_name").val()
               var key_number = $(".key_word_number").val()
               var key_semester = $(".key_word_semester").val()
+              var key_class = $(".key_class_").val()
               $.get("/search/unpass",{
                        "key_name":key_name,
                        "key_number":key_number,
                        "key_semester":key_semester,
+                       "key_class":key_class,
               }, function(data){
                  $(".contentpanel").html(data)
 });
@@ -19,12 +21,13 @@
 </script>
 
 <div class="search_from">
+    <input class="key_class_" type="text" placeholder="class_">
     <input class="key_word_name" type="text" placeholder="name">
     <input class="key_word_number" type="text" placeholder="number">
     <input class="key_word_semester" type="text" placeholder="semester">
     <button class="btn btn-blue search_button">search</button>
     <div class="receicve">
-
+         {% if Ls %}
         <table class="grade_table">
         <tr>
             <td>课程号</td>
@@ -37,6 +40,7 @@
               {% for l in Ls %}
 
              <tr>
+                 <td>{{l.name}}</td>
                  <td>{{l.course_number}}</td>
                  <td>{{l.course_name}}</td>
                  <td>{{l.grade}}</td>
@@ -47,6 +51,6 @@
 
         </table>
 
-
+   {% endif %}
 
 </div>

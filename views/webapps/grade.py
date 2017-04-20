@@ -45,25 +45,26 @@ class DealTable(object):
     def deal_score(self):
         course = {}
         table = self.read_file()
+        # row scan
         for row in range(self.table_row_start, self.table_row_end):
             # course = {}
             for col in range(self.course_col_start, self.course_col_end):
 
-                if not table.row_values(row)[col]:
-                    continue
-                else:
-                    subd = course[table.col_values(col)[0]] = {}
-                    # print course
-                    subd['number'] = table.row_values(self.table_row_start - 4)[col]
-                    subd['type'] = table.row_values(self.table_row_start - 3)[col]
-                    subd['score'] = table.row_values(self.table_row_start - 2)[col]
-                    course[table.col_values(col)[0]]['grade'] = table.row_values(row)[col]
-                    # info['number'] = table.row_values(row)[self.p_col_start - 4]
-                    # info['name'] = table.row_values(row)[self.p_col_start - 1]
-                    # course.update(info)
+
+                subd = course[table.col_values(col)[0]] = {}
+                # print course
+                subd['number'] = table.row_values(self.table_row_start - 4)[col]
+                subd['type'] = table.row_values(self.table_row_start - 3)[col]
+                subd['score'] = table.row_values(self.table_row_start - 2)[col]
+
+                course[table.col_values(col)[0]]['grade'] = table.row_values(row)[col]
+                # info['number'] = table.row_values(row)[self.p_col_start - 4]
+                # info['name'] = table.row_values(row)[self.p_col_start - 1]
+                # course.update(info)
+
             name = table.row_values(row)[self.course_col_start - self.name_col]
             number = table.row_values(row)[self.course_col_start - self.number_col]
-            print course
+            # print course
                     # print table.row_values(row)[self.p_col_start-4],table.row_values(row)[self.p_col_start-1]
             values = {
                 "college": self.college,

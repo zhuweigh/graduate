@@ -4,9 +4,11 @@
               var key_name = $(".key_word_name").val()
               var key_number = $(".key_word_number").val()
               var key_semester = $(".key_word_semester").val()
+              var key_class = $(".key_class_").val()
               $.get("/search/grade",{
                        "key_name":key_name,
                        "key_number":key_number,
+                        "key_class":key_class,
                        "key_semester":key_semester,
               }, function(data){
                  $(".contentpanel").html(data)
@@ -19,11 +21,13 @@
 </script>
 
 <div class="search_from">
+    <input class="key_class_" type="text" placeholder="class_">
     <input class="key_word_name" type="text" placeholder="name">
     <input class="key_word_number" type="text" placeholder="number">
     <input class="key_word_semester" type="text" placeholder="semester">
     <button class="btn btn-blue search_button">search</button>
     <div class="receicve">
+        {% if course %}
         {% for c in course %}
         {{c.semester}}
         <table class="grade_table">
@@ -48,7 +52,36 @@
         </table>
 
         {% endfor %}
+        {% endif %}
 
+
+      {% if courses %}
+
+          <table class="grade_table">
+          <tr>
+            <td>学号</td>
+            <td>姓名</td>
+            <td>班级</td>
+              {% for k,v in courses.iteritems() %}
+                <td>{{k}}</td>
+              {% endfor %}
+          </tr>
+               {% for g in grades %}
+
+              <tr>
+              <td>{{g.number}}</td>
+              <td>{{g.name}}</td>
+              <td>{{g.class_}}</td>
+              {% for c,v in g.iteritems() %}
+
+              <td>{{v.grade}}</td>
+              {% endfor %}
+              </tr>
+
+               {% endfor %}
+        </table>
+
+        {% endif %}
 </div>
 
 
