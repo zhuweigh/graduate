@@ -1,0 +1,7 @@
+<div class="new_list">
+    {% for o in obj %}
+    <div class="title"><a href="/news/detail?nid={{o.id}}" target="_blank">{{o.title}}</a></div>
+    <div class="name">{{o.publisher}}</div>
+    <div class="data">{{o.created_at}}</div>
+    {% endfor %}
+</div>

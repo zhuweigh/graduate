@@ -5,7 +5,7 @@ from application.apps import db
 from sqlalchemy.exc import IntegrityError
 from session import get_session
 from datetime import datetime
-
+import flask_whooshalchemy
 def get_current_time():
     return datetime.now()
 class ORMMethodBase(object):
@@ -207,6 +207,7 @@ class GradeCourse(Base, db.Model):
 #     people = db.Column(db.String(255))
 
 class Competition(Base,db.Model):
+
     __tablename__ = "competition"
     __table_args__ = ({'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
     id = db.Column(db.Integer, primary_key=True)
@@ -214,20 +215,32 @@ class Competition(Base,db.Model):
     title = db.Column(db.String(255))
     competition_type = db.Column(db.String(255))
     level = db.Column(db.String(255))
+    class_ = db.Column(db.String(255))
+    name = db.Column(db.String(255))
     _date = db.Column(db.DateTime, default=get_current_time)
 
+class  News(Base,db.Model):
 
-class Hanging(Base,db.Model):
-    __tablename__ = "hanging"
+    __tablename__ = "news"
     __table_args__ = ({'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.String(255))
-    name = db.Column(db.String(255))
-    class_ = db.Column(db.String(255))
-    course = db.Column(db.String(255))
-    status = db.Column(db.String(255))
-    description = db.Column(db.String(255))
-    uploader = db.Column(db.String(255))
+    publisher = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=get_current_time)
+    content = db.Column(db.Text(4096))
+    title = db.Column(db.Text(1024))
+
+#
+# class Hanging(Base,db.Model):
+#     __tablename__ = "hanging"
+#     __table_args__ = ({'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'})
+#     id = db.Column(db.Integer, primary_key=True)
+#     number = db.Column(db.String(255))
+#     name = db.Column(db.String(255))
+#     class_ = db.Column(db.String(255))
+#     course = db.Column(db.String(255))
+#     status = db.Column(db.String(255))
+#     description = db.Column(db.String(255))
+#     uploader = db.Column(db.String(255))
 
 class LeaveApply(Base, db.Model):
     __tablename__ = "leaveapply"

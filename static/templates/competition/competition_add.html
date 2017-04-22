@@ -2,12 +2,13 @@
       var enable_submit=true;
       function submit_competition_create(){
      var bValid = true;
-     var title=$("#competition_create_modal").find("#competition_name_id")
-     console.log(title)
+     var title=$("#competition_create_modal").find("#competition_title_id")
+      var name=$("#competition_create_modal").find("#competition_name_id")
+     var class_=$("#competition_create_modal").find("#competition_class_id")
+
      var members=$("#competition_create_modal").find("#competition_member_id")
      var time=$("#competition_create_modal").find("#competition_time_id")
      var type=$("#competition_create_modal").find("#competition_type_id")
-     <!--var numbers=$("#competition_create_modal").find("#competition_number_id")-->
 
 
      if(bValid){
@@ -17,6 +18,8 @@
             $submitBtn.html('<i class="fa fa-spinner fa-spin" style="margin:3px 6px;"></i>');
              $('.rtn-tip').slideUp('fast');
               $.post("/competition/add",{
+                  "name":$.trim(name.val()),
+                  "class_":$.trim(class_.val()),
                   "title":$.trim(title.val()),
                   "members":$.trim(members.val()),
                   "time":$.trim(time.val()),
@@ -63,8 +66,26 @@
                 <label>题目</label><a>*</a>
                </td>
                <td colspan="3">
+                  <input id="competition_title_id" name="competition_title" size="25" max="10000" min="1" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_title"></i>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                <label>名字</label><a>*</a>
+               </td>
+               <td colspan="3">
                   <input id="competition_name_id" name="competition_name" size="25" max="10000" min="1" type="text"/>
                  <i class="fa fa-question-circle" itype="competition_name"></i>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                <label>班级</label><a>*</a>
+               </td>
+               <td colspan="3">
+                  <input id="competition_class_id" name="competition_class" size="25" max="10000" min="1" type="text"/>
+                 <i class="fa fa-question-circle" itype="competition_class"></i>
                </td>
             </tr>
             <tr>

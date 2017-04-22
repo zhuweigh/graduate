@@ -12,6 +12,27 @@ from datetime import datetime
 
 render = render_jinja('static/templates/search', encoding='utf-8',)
 
+class Honoer:
+    def __init__(self, class_):
+        self.class_ = class_
+    def get_honoer(self):
+        con = []
+        pro = []
+        shi = []
+        sco = []
+
+        obj = models.Competition.query.filter(models.Competition.class_ == self.class_).all()
+        for o in obj:
+            if o.level == u"国家级":
+                con.append(o)
+            elif o.level == u"省级":
+                pro.append(o)
+            elif o.level == u"校级":
+                shi.append(o)
+            elif o.level == u"校级":
+                sco.append(o)
+
+        return con, pro, shi, sco
 
 
 class GradeList:
@@ -87,7 +108,7 @@ class GradeSearch(BaseManager):
         obj = GradeList(class_, name, s, number)
         k, v, n = obj.deal_grade_show()
         if k and v:
-            print "kjjjjjjj"
+
             return render.search_grade(grades=k, courses=v)
         elif k:
             return render.search_grade(course=k)

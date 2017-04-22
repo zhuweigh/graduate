@@ -59,6 +59,7 @@ class Clculation:
                 obj['name'] = grade.name
                 obj['point'] = "%.2f" % grade_point
                 result.append(obj)
+            print "*************",result
             return  result
 
 app = Blueprint('gradecal_app', __name__, template_folder='templates')

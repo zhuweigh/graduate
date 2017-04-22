@@ -199,3 +199,20 @@ padding-left:10px;
 }
 
 
+.user-info {
+    font-size: 11px;
+    float:right;
+    margin-right: 150px;
+padding-right: 30px;
+}
+.user-info button {
+background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 3px 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+

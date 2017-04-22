@@ -1,6 +1,8 @@
 #!/usr/bin/env python2
 #-*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
+import os
+dir = "/root/desigine/studentinfomanager/application/static/img"
 plt.rcParams['font.sans-serif'] = ['SimHei']
 fig, ax = plt.subplots()
 
@@ -20,6 +22,7 @@ def autolabel(rects):
 autolabel(rect1)
 ax.set_ybound(0, 40)
 plt.tight_layout()
+plt.savefig(os.path.join(dir,"t.png"))
 plt.show()
 # import matplotlib.pyplot as plt
 

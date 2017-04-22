@@ -16,7 +16,7 @@ class GridCompetition(BaseManager):
         filters = {}
         panger = Pager()
         page, total_paper, records, rows = panger.grid_rows_query(params=params, table='competition', mode='count')
-        cells = ['id', 'title', 'team_members', '_datw', 'level','competition_type']
+        cells = ['id','name','class_', 'title', 'team_members', '_datw', 'level','competition_type']
         rows_json = grid_json(page, total_paper, records, rows, 'id', cells)
         return rows_json
 class CompetitionList(BaseManager):
@@ -61,8 +61,10 @@ class CompetitionUpdate(BaseManager):
            "team_members": params.get("members"),
            "title": params.get("title"),
            "competition_type": params.get("type"),
-           "level": params.get("level")
-           # "_date":params.get("time"),
+           "level": params.get("level"),
+           "name": params.get("name"),
+           "class_":params.get("class_"),
+
        }
        competition.update(values)
        return  success2json("update ok")

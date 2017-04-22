@@ -7,15 +7,15 @@
     });
 
 
-$(".question_title").click(function(){
-         id = $(this).attr("id")
-         console.log(id)
-           $.get("/qa/detail",{
-                       "question_id": id,
-              }, function(data){
-                 $(".panel").html(data);
-      });
-  });
+<!--$(".question_title").click(function(){-->
+         <!--id = $(this).attr("id")-->
+         <!--console.log(id)-->
+           <!--$.get("/qa/detail",{-->
+                       <!--"question_id": id,-->
+              <!--}, function(data){-->
+                 <!--$(".panel").html(data);-->
+      <!--});-->
+  <!--});-->
 
 
 </script>
@@ -23,8 +23,7 @@ $(".question_title").click(function(){
 <div class="panel panel-style" ng-controller="QaModalCtrl">
     <div class="panel-body">
         <div class="title-tag">
-            <h3>课程信息</h3>
-            <p>课程信息</p>
+            <h3>在线答疑</h3>
         </div>
     </div>
     <div class="user-info">
@@ -32,17 +31,21 @@ $(".question_title").click(function(){
         <div class="question-counts">提问数{{ q_counts}}</div>
         <div class="answer-counts">回答数{{ a_counts}}</div>
         <div class="comment-counts">评论数{{ c_counts}}</div>
-        <div id="ask">
+
             <button class="btn ask_btn">提问</button>
-        </div>
+
     </div>
     <div class="question-lists">
     <div class="views"></div>
     {% for qs in questions %}
-    <div class="answer-counts">答案{{ qs.answers_count }}</div>
-    <div class="question-create">创建于{{ qs.create_time}}</div>
-    <div class="question_user">提问者{{ qs.author.name}}</div>
-        <div class="question_title" id="{{qs.id}}">问题:{{ qs.name }}</div>
+        <div class="question_title" id="{{qs.id}}"><a href="/qa/detail?question_id={{qs.id}}" target="_blank">问题:{{ qs.name }}</a></div>
+     <div class="question_user">提问者:{{ qs.author.name}}</div>
+        <div class="question-create">create at {{ qs.create_time}}</div>
+        <div class="answer-counts">{{ qs.answers_count }}个答案</div>
+        <hr />
+
+
+
 
     {% endfor %}
     </div>
